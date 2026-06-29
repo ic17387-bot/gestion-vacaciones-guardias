@@ -18,6 +18,7 @@ empleado.addEventListener("change", () => {
 
                                 bienvenida.innerHTML = "👋 Bienvenido, " + empleado.value;
 console.log("Firebase conectado", db);
+alert("Firebase conectado correctamente");
                                     db.collection("empleados")
                                       .where("nombre", "==", empleado.value)
                                         .get()
@@ -43,3 +44,4 @@ console.log("Firebase conectado", db);
                                                                                         saldo.innerHTML = "❌ Error al conectar con Firebase";
 
                                                                                           });
+                                                                                        });
