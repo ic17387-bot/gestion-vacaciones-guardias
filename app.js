@@ -44,3 +44,32 @@ console.log("Firebase conectado", db);
 
                                                                                           });
                                                                                         });
+const fechaInicio = document.getElementById("fechaInicio");
+const fechaFin = document.getElementById("fechaFin");
+const diasSolicitados = document.getElementById("diasSolicitados");
+
+function calcularDias() {
+
+  console.log("calculando dias...");
+  
+    if (!fechaInicio.value || !fechaFin.value) {
+            diasSolicitados.innerHTML = "";
+                    return;
+                        }
+
+                            const inicio = new Date(fechaInicio.value);
+                                const fin = new Date(fechaFin.value);
+
+                                    const diferencia = fin - inicio;
+
+                                        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24)) + 1;
+
+                                            if (dias > 0) {
+                                                    diasSolicitados.innerHTML =
+                                                                "🏖 Días solicitados: <b>" + dias + "</b>";
+                                                                    }
+
+                                                                    }
+
+                                                                    fechaInicio.addEventListener("change", calcularDias);
+                                                                    fechaFin.addEventListener("change", calcularDias);
