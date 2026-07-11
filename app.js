@@ -73,3 +73,56 @@ function calcularDias() {
 
                                                                     fechaInicio.addEventListener("change", calcularDias);
                                                                     fechaFin.addEventListener("change", calcularDias);
+const btnSolicitar = document.getElementById("btnSolicitar");
+
+btnSolicitar.addEventListener("click", () => {
+
+    if (!fechaInicio.value || !fechaFin.value) {
+            alert("Seleccione las fechas.");
+                    return;
+                        }
+
+                            const inicio = new Date(fechaInicio.value);
+                                const fin = new Date(fechaFin.value);
+
+                                    const dias = Math.floor((fin - inicio) / (1000 * 60 * 60 * 24)) + 1;
+
+                                        db.collection("solicitudesVacaciones").add({
+
+                                                empleado: empleado.value,
+                                                        fechaInicio: fechaInicio.value,
+                                                                fechaFin: fechaFin.value,
+                                                                        dias: dias,
+                                                                                estatus: "Pendiente",
+                                                                                        fechaSolicitud: new Date().toISOString()
+
+                                                                                            })
+                                                                                                .then(() => {
+
+                                                                                                        Swal.fire({
+                                                                                                                icon: "success",
+                                                                                                                        title: "Solicitud registrada",
+                                                                                                                                html: `
+                                                                                                                                            <b>${empleado.value}</b><br><br>
+                                                                                                                                                        📅 ${fechaInicio.value} al ${fechaFin.value}<br>
+                                                                                                                                                                    🏖 ${dias} días solicitados<br><br>
+                                                                                                                                                                                🟡 Estatus: Pendiente
+                                                                                                                                                                                        `,
+                                                                                                                                                                                                confirmButtonText: "Aceptar"
+                                                                                                                                                                                                    }).then(() => {
+
+                                                                                                                                                                                                            fechaInicio.value = "";
+                                                                                                                                                                                                                    fechaFin.value = "";
+                                                                                                                                                                                                                            diasSolicitados.innerHTML = "";
+
+                                                                                                                                                                                                                                });
+
+                                                                                                                                                                                                                                })
+                                                                                                                .catch((error) => {
+
+                                                                                                                        console.error(error);
+                                                                                                                                alert("Error al guardar la solicitud.");
+
+                                                                                                                                    });
+
+                                                                                                                                    });
