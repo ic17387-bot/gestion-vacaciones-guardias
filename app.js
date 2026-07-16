@@ -15,6 +15,8 @@ empleado.addEventListener("change", () => {
                         }
 
                             infoEmpleado.style.display = "block";
+                            menuPrincipal.style.display = "block";
+                            moduloVacaciones.style.display = "none";
 
                                 bienvenida.innerHTML = "👋 Bienvenido, " + empleado.value;
 console.log("Firebase conectado", db);
@@ -74,8 +76,21 @@ function calcularDias() {
                                                                     fechaInicio.addEventListener("change", calcularDias);
                                                                     fechaFin.addEventListener("change", calcularDias);
 const btnSolicitar = document.getElementById("btnSolicitar");
+const menuPrincipal = document.getElementById("menuPrincipal");
+const moduloVacaciones = document.getElementById("moduloVacaciones");
+
+const btnMenuVacaciones = document.getElementById("btnMenuVacaciones");
+const btnRegresarVacaciones = document.getElementById("btnRegresarVacaciones");
+
+const btnHistorial = document.getElementById("btnHistorial");
+const btnRegresarHistorial = document.getElementById("btnRegresarHistorial");
+const moduloHistorial = document.getElementById("moduloHistorial");
+const listaHistorial = document.getElementById("listaHistorial");
 
 btnSolicitar.addEventListener("click", () => {
+
+    console.log("BOTÓN PRESIONADO");
+    alert("Botón presionado");
 
     if (!fechaInicio.value || !fechaFin.value) {
             alert("Seleccione las fechas.");
@@ -118,11 +133,91 @@ btnSolicitar.addEventListener("click", () => {
                                                                                                                                                                                                                                 });
 
                                                                                                                                                                                                                                 })
+                                                                                                                
                                                                                                                 .catch((error) => {
 
                                                                                                                         console.error(error);
-                                                                                                                                alert("Error al guardar la solicitud.");
 
-                                                                                                                                    });
+                                                                                                                            alert(
+                                                                                                                                    "Código: " + error.code +
+                                                                                                                                            "\n\nMensaje: " + error.message
+                                                                                                                                                );
 
-                                                                                                                                    });
+                                                                                                                                                });
+                                                                                                                })
+                                                                                                                                                
+
+         btnMenuVacaciones.addEventListener("click", () => {
+
+            menuPrincipal.style.display = "none";
+                moduloVacaciones.style.display = "block";
+
+                });
+
+                btnRegresarVacaciones.addEventListener("click", () => {
+
+                    moduloVacaciones.style.display = "none";
+                        menuPrincipal.style.display = "block";
+
+                        });
+                        btnHistorial.addEventListener("click", () => {
+
+                                menuPrincipal.style.display = "none";
+                                    moduloHistorial.style.display = "block";
+                                     listaHistorial.innerHTML = "Cargando...";
+                                     db.collection("solicitudesVacaciones")
+                                     .where("empleado", "==", empleado.value)
+                                    
+                                     .get()
+                                     .then((querySnapshot) => {
+
+                                         listaHistorial.innerHTML = "";
+
+                                             if (querySnapshot.empty) {
+
+                                                     listaHistorial.innerHTML =
+                                                             "<p>No existen solicitudes.</p>";
+
+                                                                     return;
+                                                                         }
+
+                                                                             querySnapshot.forEach((doc) => {
+
+                                                                                     const datos = doc.data();
+
+                                                                                             listaHistorial.innerHTML += `
+                                                                                                     <div style="
+                                                                                                                 border:1px solid #ddd;
+                                                                                                                             border-radius:10px;
+                                                                                                                                         padding:15px;
+                                                                                                                                                     margin-bottom:15px;
+                                                                                                                                                                 text-align:left;
+                                                                                                                                                                         ">
+
+                                                                                                                                                                                     <b>📅 ${datos.fechaInicio} al ${datos.fechaFin}</b><br>
+
+                                                                                                                                                                                                 🏖 ${datos.dias} días<br>
+
+                                                                                                                                                                                                             🟡 ${datos.estatus}
+
+                                                                                                                                                                                                                     </div>
+                                                                                                                                                                                                                             `;
+
+                                                                                                                                                                                                                                 });
+
+                                                                                                                                                                                                                                 })
+                                                                                                                                                                                                                                 .catch((error)=>{
+
+                                                                                                                                                                                                                                     console.error(error);
+
+                                                                                                                                                                                                                                         listaHistorial.innerHTML="Error al consultar historial.";
+
+                                                                                                                                                                                                                                         });
+                                    });
+                        btnRegresarHistorial.addEventListener("click", () => {
+
+                                moduloHistorial.style.display = "none";
+                                    menuPrincipal.style.display = "block";
+
+                                    });
+                        

@@ -31,6 +31,8 @@
 
   <hr>
 
+  <div id="moduloVacaciones" style="display:none;">
+
   <h3>🏖 Solicitud de Vacaciones</h3>
 
   <label>Fecha de inicio</label><br>
@@ -45,14 +47,50 @@
       Solicitar Vacaciones
       </button>
 
-</div>
-  <button>🏖 Solicitar Vacaciones</button>
-  <button>🛡 Registrar Guardia</button>
-  <button>📋 Consultar Historial</button>
-  <button>🔐 Administrador</button>
+      <button id="btnRegresarVacaciones">
+            ⬅ Regresar
+            </button>
+
+            </div>
+
+            <div id="moduloHistorial" style="display:none;">
+
+                  <h2>📋 Historial de Solicitudes</h2>
+
+                      <div id="listaHistorial"></div>
+
+                          <br>
+
+                              <button id="btnRegresarHistorial">
+                                      ⬅ Regresar
+                                          </button>
+
+                                          </div>
+<div id="menuPrincipal" style="display:none;">
+
+      <button id="btnMenuVacaciones">
+              🏖 Solicitar Vacaciones
+                  </button>
+
+       <button id="btnMenuGuardias">
+              🛡 Registrar Guardia
+                  </button>
+
+       <button id="btnHistorial">
+              📋 Consultar Historial
+                  </button>
+
+       <button id="btnAdministrador">
+              🔐 Administrador
+                   </button>
+
+ </div>
+
 </div>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script src="firebase.js"></script>
   <script src="app.js"></script>
