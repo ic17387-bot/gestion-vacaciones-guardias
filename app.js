@@ -82,6 +82,22 @@ const moduloVacaciones = document.getElementById("moduloVacaciones");
 const btnMenuVacaciones = document.getElementById("btnMenuVacaciones");
 const btnRegresarVacaciones = document.getElementById("btnRegresarVacaciones");
 
+const btnMenuGuardias = document.getElementById("btnMenuGuardias");
+const btnRegresarGuardias = document.getElementById("btnRegresarGuardias");
+const moduloGuardias = document.getElementById("moduloGuardias");
+
+const btnHistorialGuardias = document.getElementById("btnHistorialGuardias");
+const btnRegresarHistorialGuardias = document.getElementById("btnRegresarHistorialGuardias");
+const moduloHistorialGuardias = document.getElementById("moduloHistorialGuardias");
+const listaHistorialGuardias = document.getElementById("listaHistorialGuardias");
+const totalGuardias = document.getElementById("totalGuardias");
+
+const btnGuardarGuardia = document.getElementById("btnGuardarGuardia");
+const fechaGuardia = document.getElementById("fechaGuardia");
+const horaEntrada = document.getElementById("horaEntrada");
+const horaSalida = document.getElementById("horaSalida");
+const tipoGuardia = document.getElementById("tipoGuardia");
+
 const btnHistorial = document.getElementById("btnHistorial");
 const btnRegresarHistorial = document.getElementById("btnRegresarHistorial");
 const moduloHistorial = document.getElementById("moduloHistorial");
@@ -160,6 +176,96 @@ btnSolicitar.addEventListener("click", () => {
                         menuPrincipal.style.display = "block";
 
                         });
+// Abrir módulo de Guardias
+btnMenuGuardias.addEventListener("click", () => {
+
+    menuPrincipal.style.display = "none";
+        moduloGuardias.style.display = "block";
+
+        });
+
+        // Regresar al menú principal
+        btnRegresarGuardias.addEventListener("click", () => {
+
+            moduloGuardias.style.display = "none";
+                menuPrincipal.style.display = "block";
+
+                })
+        btnHistorialGuardias.addEventListener("click", () => {
+
+                menuPrincipal.style.display = "none";
+                    moduloHistorialGuardias.style.display = "block";
+
+                        cargarHistorialGuardias();
+
+                        });
+        
+
+                    btnRegresarHistorialGuardias.addEventListener("click", () => {
+
+                        moduloHistorialGuardias.style.display = "none";
+                            menuPrincipal.style.display = "block";
+
+                            });
+        
+       btnGuardarGuardia.addEventListener("click", () => {
+
+            if (
+                    !fechaGuardia.value ||
+                            !horaEntrada.value ||
+                                    !horaSalida.value ||
+                                            !tipoGuardia.value
+                                                ) {
+
+                                                        Swal.fire({
+                                                                    icon: "warning",
+                                                                                title: "Información incompleta",
+                                                                                            text: "Debe capturar todos los datos de la guardia."
+                                                                                                    });
+
+                                                                                                            return;
+                                                                                                                }
+             db.collection("guardias").add({
+
+                    empleado: empleado.value,
+                        fecha: fechaGuardia.value,
+                            horaEntrada: horaEntrada.value,
+                                horaSalida: horaSalida.value,
+                                    tipoGuardia: tipoGuardia.value,
+                                        fechaRegistro: new Date()
+
+                                        })
+                                        .then(() => {
+
+                                            Swal.fire({
+                                                    icon: "success",
+                                                            title: "Guardia registrada",
+                                                                    text: "La guardia se registró correctamente."
+                                                                        });
+
+                                                                            fechaGuardia.value = "";
+                                                                                horaEntrada.value = "";
+                                                                                    horaSalida.value = "";
+                                                                                        tipoGuardia.value = "";
+
+                                                                                            moduloGuardias.style.display = "none";
+                                                                                                menuPrincipal.style.display = "block";
+
+                                                                                                })
+                                                                                                .catch((error) => {
+
+                                                                                                    console.error(error);
+
+                                                                                                        Swal.fire({
+                                                                                                                icon: "error",
+                                                                                                                        title: "Error",
+                                                                                                                                text: "No fue posible registrar la guardia."
+                                                                                                                                    });
+
+                                                                                                                                    });
+             })
+                                                                                                                
+       
                         btnHistorial.addEventListener("click", () => {
 
                                 menuPrincipal.style.display = "none";
@@ -220,4 +326,88 @@ btnSolicitar.addEventListener("click", () => {
                                     menuPrincipal.style.display = "block";
 
                                     });
-                        
+
+function cargarHistorialGuardias() {
+
+        listaHistorialGuardias.innerHTML = "Cargando...";
+
+            db.collection("guardias")
+                    .where("empleado", "==", empleado.value)
+                            .orderBy("fecha", "desc")
+                                    .get()
+                                            .then((snapshot) => {
+
+                                            listaHistorialGuardias.innerHTML = "";
+
+                                        if (snapshot.empty) {
+
+                                            totalGuardias.innerHTML = "Total de guardias registradas: 0";
+
+                                                listaHistorialGuardias.innerHTML =
+                                                        "<p>No existen guardias registradas.</p>";
+
+                                                            return;
+                                                            }
+
+                                            let tabla = `
+                                        <table style="
+                                            width:100%;
+                                            border-collapse:separate;
+                                            border-spacing:0;
+                                            overflow:hidden;
+                                            border-radius:12px;
+                                            box-shadow:0 3px 10px rgba(0,0,0,.12);
+                                            text-align:center;
+                                            margin-top:15px;
+                                            font-size:15px;
+                                        ">
+                                                <tr style="
+                                                    background:#123A73;
+                                                        color:white;
+                                                        ">
+                                                    <th style="padding:14px;">Fecha</th>
+                                                    <th style="padding:14px;">Entrada</th>
+                                                    <th style="padding:14px;">Salida</th>
+                                                    <th style="padding:14px;">Tipo</th>
+                                                    <tr style="background:white;">
+                                            `;
+
+                                            snapshot.forEach((doc) => {
+
+                                        const guardia = doc.data();
+                                        const fecha = guardia.fecha.split("-").reverse().join("/");
+
+                                                    tabla += `
+                                                        <tr style="background:white;">
+                                                        <td style="padding:12px;">${fecha}</td>
+
+                                                        <td style="padding:12px;">${guardia.horaEntrada}</td>
+
+                                                        <td style="padding:12px;">${guardia.horaSalida}</td>
+
+                                                        <td style="padding:12px;">${guardia.tipoGuardia}</td>
+                                                                <tr style="background:white;">
+                                                                 `;
+
+                                                                           });
+
+                                                      tabla += "</table>";
+
+                                                      totalGuardias.innerHTML =
+                                                          `Total de guardias registradas: ${snapshot.size}`;
+
+                                                     listaHistorialGuardias.innerHTML = tabla;
+
+                                                             })
+                                            
+                                                        .catch((error) => {
+
+                                                                console.error(error);
+
+                                                                    Swal.fire({
+                                                                            icon: "error",
+                                                                                    title: "Error",
+                                                                                            text: error.message
+                                                                                                });
+                                                                                            });
+}
