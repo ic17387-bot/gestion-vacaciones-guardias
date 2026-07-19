@@ -4,7 +4,23 @@
     h1{      margin-top:0;    }
     select,    button{      width:100%;      padding:15px;      margin-top:15px;      border-radius:10px;      border:1px solid #ccc;      font-size:16px;    }
     button{      background:#003366;      color:white;      border:none;      cursor:pointer;    }
-    button:hover{      opacity:.9;    }  </style></head><body>
+    button:hover{      opacity:.9;    }  label{
+            display:block;
+                text-align:left;
+                    margin-top:15px;
+                        margin-bottom:5px;
+                            font-weight:bold;
+                                color:#003366;
+                                }
+                                
+                                input{
+                                    width:100%;
+                                        padding:10px;
+                                            box-sizing:border-box;
+                                                border:1px solid #ccc;
+                                                    border-radius:8px;
+                                                        font-size:16px;
+                                                        }</style></head><body>
 <div class="contenedor">
   <h1>Gestión de Vacaciones y Guardias</h1>
   <p>Seleccione su nombre:</p>
@@ -121,6 +137,88 @@
                 </button>
 
                 </div>
+
+<div id="moduloAdministrador" style="display:none;">
+
+        <h2 style="color:#123A73; text-align:center;">
+                👨‍💼 Panel de Administrador
+                    </h2>
+
+        <button id="btnAdministrarEmpleados">
+                👥 Administración de Empleados
+                    </button>
+
+        <button id="btnAdministrarVacaciones">
+                🌴 Administración de Vacaciones
+                    </button>
+
+        <button id="btnAdministrarGuardias">
+                🛡 Administración de Guardias
+                    </button>
+
+        <button id="btnDashboard">
+                📊 Dashboard
+                    </button>
+
+                    <br><br>
+
+        <button id="btnRegresarAdministrador">
+            ⬅️ Regresar
+                    </button>
+
+                    </div>
+<div id="moduloEmpleados" style="display:none;">
+
+        <h2 style="color:#123A73; text-align:center;">
+                👥 Administración de Empleados
+                    </h2>
+
+        <button id="btnNuevoEmpleado">
+                ➕ Nuevo Empleado
+                    </button>
+
+        <button id="btnConsultarEmpleados">
+                📋 Consultar Empleados
+                    </button>
+
+        <button id="btnRegresarEmpleados">
+                ⬅️ Regresar
+                    </button>
+
+                </div>
+<div id="moduloNuevoEmpleado" style="display:none;">
+
+        <h2 style="text-align:center; color:#003366;">
+                ➕ Nuevo Empleado
+                </h2>
+
+        <label>Número de empleado</label>
+        <input type="text" id="numeroEmpleado">
+
+        <label>Nombre completo</label>
+        <input type="text" id="nombreEmpleado">
+
+        <label>Área</label>
+        <input type="text" id="areaEmpleado">
+
+        <label>Puesto</label>
+        <input type="text" id="puestoEmpleado">
+
+        <label>Fecha de ingreso</label>
+        <input type="date" id="fechaIngresoEmpleado">
+
+        <br><br>
+
+        <button id="btnGuardarEmpleado">
+                  💾 Guardar Empleado
+        </button>
+
+        <button id="btnCancelarNuevoEmpleado">
+                    ⬅️ Cancelar
+        </button>
+
+        </div>
+
 <div id="menuPrincipal" style="display:none;">
 
       <button id="btnMenuVacaciones">

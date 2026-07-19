@@ -5,47 +5,47 @@ const saldo = document.getElementById("saldo");
 
 empleado.addEventListener("change", () => {
     console.log("Empleado seleccionado:", empleado.value);
-
-    if (empleado.value === "Seleccione...") {
-
-            infoEmpleado.style.display = "none";
-
-                    return;
-
-                        }
-
-                            infoEmpleado.style.display = "block";
-                            menuPrincipal.style.display = "block";
-                            moduloVacaciones.style.display = "none";
-
-                                bienvenida.innerHTML = "👋 Bienvenido, " + empleado.value;
-console.log("Firebase conectado", db);
-                                    db.collection("empleados")
-                                      .where("nombre", "==", empleado.value)
-                                        .get()
-                                          .then((querySnapshot) => {
-
-                                              if (querySnapshot.empty) {
-
-                                                    saldo.innerHTML = "❌ Empleado no encontrado";
-                                                          return;
-
-                                                              }
-
-                                                                  const datos = querySnapshot.docs[0].data();
-
-                                                                      saldo.innerHTML =
-                                                                            "🏖 Saldo disponible: " + datos.saldo + " días";
-
-                                                                              })
-                                                                                .catch((error) => {
-
-                                                                                    console.error(error);
-
-                                                                                        saldo.innerHTML = "❌ Error al conectar con Firebase";
-
-                                                                                          });
-                                                                                        });
+    
+        if (empleado.value === "Seleccione...") {
+        
+                    infoEmpleado.style.display = "none";
+                    
+                 return;
+                                        
+      }
+                                                                
+                 infoEmpleado.style.display = "block";
+                                 menuPrincipal.style.display = "block";
+                        moduloVacaciones.style.display = "none";
+                                                                                                                                                    
+         bienvenida.innerHTML = "👋 Bienvenido, " + empleado.value;
+                         console.log("Firebase conectado", db);
+                                 db.collection("empleados")
+                       .where("nombre", "==", empleado.value)
+                          .get()
+                     .then((querySnapshot) => {
+                                                                                                                                                                                                                                                                                                                                                
+                     if (querySnapshot.empty) {
+                                                                                                                                                                                                                                                                                                                                                                                              
+               saldo.innerHTML = "❌ Empleado no encontrado";
+                             return;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                   }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+ const datos = querySnapshot.docs[0].data();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                  saldo.innerHTML =
+           "🏖 Saldo disponible: " + datos.saldo + " días";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+                        })
+                  .catch((error) => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                    console.error(error);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+             saldo.innerHTML = "❌ Error al conectar con Firebase";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                    });
+      });
 const fechaInicio = document.getElementById("fechaInicio");
 const fechaFin = document.getElementById("fechaFin");
 const diasSolicitados = document.getElementById("diasSolicitados");
@@ -102,6 +102,28 @@ const btnHistorial = document.getElementById("btnHistorial");
 const btnRegresarHistorial = document.getElementById("btnRegresarHistorial");
 const moduloHistorial = document.getElementById("moduloHistorial");
 const listaHistorial = document.getElementById("listaHistorial");
+
+// Administrador
+const btnAdministrador = document.getElementById("btnAdministrador");
+const moduloAdministrador = document.getElementById("moduloAdministrador");
+const btnAdministrarEmpleados = document.getElementById("btnAdministrarEmpleados");
+const btnAdministrarVacaciones = document.getElementById("btnAdministrarVacaciones");
+const btnAdministrarGuardias = document.getElementById("btnAdministrarGuardias");
+const btnDashboard = document.getElementById("btnDashboard");
+const moduloEmpleados = document.getElementById("moduloEmpleados");
+const btnNuevoEmpleado = document.getElementById("btnNuevoEmpleado");
+const btnConsultarEmpleados = document.getElementById("btnConsultarEmpleados");
+const btnRegresarEmpleados = document.getElementById("btnRegresarEmpleados");
+// Nuevo Empleado
+const moduloNuevoEmpleado = document.getElementById("moduloNuevoEmpleado");
+const numeroEmpleado = document.getElementById("numeroEmpleado");
+const nombreEmpleado = document.getElementById("nombreEmpleado");
+const areaEmpleado = document.getElementById("areaEmpleado");
+const puestoEmpleado = document.getElementById("puestoEmpleado");
+const fechaIngresoEmpleado = document.getElementById("fechaIngresoEmpleado");
+const btnGuardarEmpleado = document.getElementById("btnGuardarEmpleado");
+const btnCancelarNuevoEmpleado = document.getElementById("btnCancelarNuevoEmpleado");
+const btnRegresarAdministrador = document.getElementById("btnRegresarAdministrador");
 
 btnSolicitar.addEventListener("click", () => {
 
@@ -207,6 +229,111 @@ btnMenuGuardias.addEventListener("click", () => {
                             menuPrincipal.style.display = "block";
 
                             });
+
+        btnAdministrador.addEventListener("click", () => {
+
+                menuPrincipal.style.display = "none";
+                    moduloAdministrador.style.display = "block";
+
+                    });
+        btnRegresarAdministrador.addEventListener("click", () => {
+
+                moduloAdministrador.style.display = "none";
+                    menuPrincipal.style.display = "block";
+
+                    });
+        btnAdministrarEmpleados.addEventListener("click", () => {
+
+            moduloAdministrador.style.display = "none";
+                moduloEmpleados.style.display = "block";
+
+                });
+        btnRegresarEmpleados.addEventListener("click", () => {
+
+            moduloEmpleados.style.display = "none";
+                moduloAdministrador.style.display = "block";
+
+                });
+    btnNuevoEmpleado.addEventListener("click", () => {
+
+            moduloEmpleados.style.display = "none";
+                moduloNuevoEmpleado.style.display = "block";
+
+                });
+    btnCancelarNuevoEmpleado.addEventListener("click", () => {
+
+            moduloNuevoEmpleado.style.display = "none";
+                moduloEmpleados.style.display = "block";
+
+                });
+
+    btnGuardarEmpleado.addEventListener("click", () => {
+
+            if (
+                    numeroEmpleado.value.trim() === "" ||
+                    nombreEmpleado.value.trim() === "" ||
+                    areaEmpleado.value.trim() === "" ||
+                    puestoEmpleado.value.trim() === "" ||
+                    fechaIngresoEmpleado.value === ""
+                               ) {
+
+                    alert("Debe capturar todos los datos del empleado.");
+                            return;
+
+                    }
+const fechaIngreso = new Date(fechaIngresoEmpleado.value);
+
+const fechaRenovacion = new Date(fechaIngreso);
+
+fechaRenovacion.setFullYear(fechaRenovacion.getFullYear() + 1);
+
+const fechaRenovacionTexto = fechaRenovacion.toISOString().split("T")[0];
+        db.collection("empleados").add({
+
+                numeroEmpleado: numeroEmpleado.value,
+                nombre: nombreEmpleado.value,
+                area: areaEmpleado.value,
+                puesto: puestoEmpleado.value,
+
+                fechaIngreso: fechaIngresoEmpleado.value,
+                fechaRenovacion: fechaRenovacionTexto,
+
+                diasOtorgados: 0,
+                diasUtilizados: 0,
+                diasDisponibles: 0,
+
+                estatus: "Activo"
+
+              })
+                .then(() => {
+
+                        Swal.fire({
+                                icon: "success",
+                                    title: "Empleado registrado",
+                                        text: "El empleado se registró correctamente.",
+                                            confirmButtonColor: "#003366"
+                                            });
+                        })
+
+                            numeroEmpleado.value = "";
+                            nombreEmpleado.value = "";
+                            areaEmpleado.value = "";
+                            puestoEmpleado.value = "";
+                            fechaIngresoEmpleado.value = "";
+
+                             moduloNuevoEmpleado.style.display = "none";
+                             moduloEmpleados.style.display = "block";
+
+                                                    })
+                
+                .catch((error) => {
+
+                 console.error(error);
+                 alert("Ocurrió un error al guardar.");
+
+              });
+    
+        
         
        btnGuardarGuardia.addEventListener("click", () => {
 
