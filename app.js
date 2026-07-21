@@ -114,6 +114,10 @@ const moduloEmpleados = document.getElementById("moduloEmpleados");
 const btnNuevoEmpleado = document.getElementById("btnNuevoEmpleado");
 const btnConsultarEmpleados = document.getElementById("btnConsultarEmpleados");
 const btnRegresarEmpleados = document.getElementById("btnRegresarEmpleados");
+
+const moduloConsultarEmpleados = document.getElementById("moduloConsultarEmpleados");
+const btnRegresarConsultaEmpleados = document.getElementById("btnRegresarConsultaEmpleados");
+const listaEmpleados = document.getElementById("listaEmpleados");
 // Nuevo Empleado
 const moduloNuevoEmpleado = document.getElementById("moduloNuevoEmpleado");
 const numeroEmpleado = document.getElementById("numeroEmpleado");
@@ -124,6 +128,7 @@ const fechaIngresoEmpleado = document.getElementById("fechaIngresoEmpleado");
 const btnGuardarEmpleado = document.getElementById("btnGuardarEmpleado");
 const btnCancelarNuevoEmpleado = document.getElementById("btnCancelarNuevoEmpleado");
 const btnRegresarAdministrador = document.getElementById("btnRegresarAdministrador");
+
 
 btnSolicitar.addEventListener("click", () => {
 
@@ -267,6 +272,87 @@ btnMenuGuardias.addEventListener("click", () => {
 
                 });
 
+    btnConsultarEmpleados.addEventListener("click", () => {
+
+        moduloEmpleados.style.display = "none";
+            moduloConsultarEmpleados.style.display = "block";
+
+            cargarEmpleados();
+
+            });
+
+    btnRegresarConsultaEmpleados.addEventListener("click", () => {
+
+            moduloConsultarEmpleados.style.display = "none";
+                moduloEmpleados.style.display = "block";
+
+                });
+
+    function cargarEmpleados() {
+
+            listaEmpleados.innerHTML = "Cargando empleados...";
+
+                db.collection("empleados")
+                    .orderBy("nombre")
+                        .get()
+                         .then((snapshot) => {
+
+                        listaEmpleados.innerHTML = "";
+
+                        if (snapshot.empty) {
+
+                        listaEmpleados.innerHTML =
+                 "<p>No existen empleados registrados.</p>";
+
+                        return;
+
+                 }
+
+                         snapshot.forEach((doc) => {
+
+                         const empleado = doc.data();
+
+                    listaEmpleados.innerHTML += `
+
+                                 <div style="
+                     border:1px solid #ddd;
+                            border-radius:10px;
+                            padding:15px;
+                             margin-bottom:15px;
+                            text-align:left;
+                            background:white;
+                         ">
+
+                            <b>${empleado.numeroEmpleado}</b><br><br>
+
+                        👤 <b>${empleado.nombre}</b><br><br>
+
+                     🏢 Área: ${empleado.area}<br>
+
+                        💼 Puesto: ${empleado.puesto}<br>
+
+                        ✅ Estatus: ${empleado.estatus}
+
+                                 </div>
+
+                      `;
+
+                       });
+
+                      })
+             .catch((error) => {
+
+              console.error(error);
+
+               listaEmpleados.innerHTML =
+                "Error al consultar empleados.";
+
+                          });
+
+                   }
+    
+
+
     btnGuardarEmpleado.addEventListener("click", () => {
 
             if (
@@ -332,26 +418,26 @@ const fechaRenovacionTexto = fechaRenovacion.toISOString().split("T")[0];
                  alert("Ocurrió un error al guardar.");
 
               });
-    
-        
+
+
         
        btnGuardarGuardia.addEventListener("click", () => {
 
             if (
                     !fechaGuardia.value ||
-                            !horaEntrada.value ||
-                                    !horaSalida.value ||
-                                            !tipoGuardia.value
-                                                ) {
+                    !horaEntrada.value ||
+                    !horaSalida.value ||
+                    !tipoGuardia.value
+                        ) {
 
-                                                        Swal.fire({
-                                                                    icon: "warning",
-                                                                                title: "Información incompleta",
-                                                                                            text: "Debe capturar todos los datos de la guardia."
-                                                                                                    });
+                    Swal.fire({
+                    icon: "warning",
+                    title: "Información incompleta",
+                    text: "Debe capturar todos los datos de la guardia."
+                         });
 
-                                                                                                            return;
-                                                                                                                }
+                            return;
+                            }
              db.collection("guardias").add({
 
                     empleado: empleado.value,
