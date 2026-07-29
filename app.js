@@ -203,6 +203,70 @@ btnSolicitar.addEventListener("click", () => {
                         menuPrincipal.style.display = "block";
 
                         });
+
+    btnHistorial.addEventListener("click", () => {
+
+        
+
+                                                                    menuPrincipal.style.display = "none";
+                                                                                                        moduloHistorial.style.display = "block";
+                                                                                                                                             listaHistorial.innerHTML = "Cargando...";
+                                                                                                                                                                                  db.collection("solicitudesVacaciones")
+                                                                                                                                                                                                                       .where("empleado", "==", empleado.value)
+                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                .get()
+                                                                                                                                                                                                                                                                                                                                     .then((querySnapshot) => {
+
+                                                                                                                                                                                                                                                                                                                                                                         listaHistorial.innerHTML = "";
+
+                                                                                                                                                                                                                                                                                                                                                                                                             if (querySnapshot.empty) {
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                 listaHistorial.innerHTML =
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     "<p>No existen solicitudes.</p>";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              return;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  }
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    querySnapshot.forEach((doc) => {
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    const datos = doc.data();
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    listaHistorial.innerHTML += `
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div style="
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border:1px solid #ddd;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border-radius:10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding:15px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin-bottom:15px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    text-align:left;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ">
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <b>📅 ${datos.fechaInicio} al ${datos.fechaFin}</b><br>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          🏖 ${datos.dias} días<br>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              🟡 ${datos.estatus}
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          `;
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  });
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         })
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             .catch((error)=>{
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 console.error(error);
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          listaHistorial.innerHTML="Error al consultar historial.";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     btnRegresarHistorial.addEventListener("click", () => {
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     moduloHistorial.style.display = "none";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         menuPrincipal.style.display = "block";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             });
+    
 // Abrir módulo de Guardias
 btnMenuGuardias.addEventListener("click", () => {
 
@@ -218,6 +282,64 @@ btnMenuGuardias.addEventListener("click", () => {
                 menuPrincipal.style.display = "block";
 
                 })
+  btnGuardarGuardia.addEventListener("click", () => {
+
+                if (
+                                    !fechaGuardia.value ||
+                                                        !horaEntrada.value ||
+                                                                            !horaSalida.value ||
+                                                                                                !tipoGuardia.value
+                                                                                                                        ) {
+
+                                                                                                                                            Swal.fire({
+                                                                                                                                                                icon: "warning",
+                                                                                                                                                                                    title: "Información incompleta",
+                                                                                                                                                                                                        text: "Debe capturar todos los datos de la guardia."
+                                                                                                                                                                                                                                 });
+
+                                                                                                                                                                                                                                                             return;
+                                                                                                                                                                                                                                                                                         }
+                                                                                                                                                                                                                                                                                                      db.collection("guardias").add({
+
+                                                                                                                                                                                                                                                                                                                          empleado: empleado.value,
+                                                                                                                                                                                                                                                                                                                                                  fecha: fechaGuardia.value,
+                                                                                                                                                                                                                                                                                                                                                                              horaEntrada: horaEntrada.value,
+                                                                                                                                                                                                                                                                                                                                                                                                              horaSalida: horaSalida.value,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                  tipoGuardia: tipoGuardia.value,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          fechaRegistro: new Date()
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  })
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          .then(() => {
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Swal.fire({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        icon: "success",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        title: "Guardia registrada",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     text: "La guardia se registró correctamente."
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            });
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            fechaGuardia.value = "";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            horaEntrada.value = "";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            horaSalida.value = "";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             tipoGuardia.value = "";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             moduloGuardias.style.display = "none";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             menuPrincipal.style.display = "block";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                })
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                .catch((error) => {
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  console.error(error);
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Swal.fire({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      icon: "error",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        title: "Error",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           text: "No fue posible registrar la guardia."
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          });
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          })
+  
+
         btnHistorialGuardias.addEventListener("click", () => {
 
                 menuPrincipal.style.display = "none";
@@ -288,6 +410,78 @@ btnMenuGuardias.addEventListener("click", () => {
 
                 });
 
+    function calcularProximaRenovacion(fechaIngreso) {
+
+            const hoy = new Date();
+
+            const partes = fechaIngreso.split("-");
+
+            const anioIngreso = Number(partes[0]);
+            const mesIngreso = Number(partes[1]) - 1;
+            const diaIngreso = Number(partes[2]);
+
+            let proxima = new Date(
+                hoy.getFullYear(),
+                    mesIngreso,
+                        diaIngreso
+                        );
+
+                if (proxima < hoy) {
+
+                    proxima.setFullYear(proxima.getFullYear() + 1);
+
+                }
+const anio = proxima.getFullYear();
+const mes = String(proxima.getMonth() + 1).padStart(2, "0");
+const dia = String(proxima.getDate()).padStart(2, "0");
+
+return `${anio}-${mes}-${dia}`;
+                    
+            }     
+            
+    function verificarRenovacionEmpleado(idEmpleado, empleado) {
+
+            const hoy = new Date();
+
+            const partesIngreso = empleado.fechaIngreso.split("-");
+
+            const mesIngreso = Number(partesIngreso[1]) - 1;
+            const diaIngreso = Number(partesIngreso[2]);
+
+                let fechaRenovacionEsteAnio = new Date(
+                    hoy.getFullYear(),
+                    mesIngreso,
+                    diaIngreso
+                       );
+
+                  if (hoy < fechaRenovacionEsteAnio) {
+                    return;
+                           }
+
+              const ultimaRenovacion = empleado.ultimaRenovacion || "";
+
+                if (ultimaRenovacion.startsWith(String(hoy.getFullYear()))) {
+                    return;
+                    }
+
+            const nuevaUltimaRenovacion =
+          `${hoy.getFullYear()}-${String(mesIngreso + 1).padStart(2, "0")}-${String(diaIngreso).padStart(2, "0")}`;
+
+             db.collection("empleados")
+                 .doc(idEmpleado)
+                  .update({
+
+                  diasUtilizados: 0,
+
+                  diasDisponibles: empleado.diasOtorgados,
+
+                 ultimaRenovacion: nuevaUltimaRenovacion
+
+                                           });
+
+                           }
+    
+            
     function cargarEmpleados() {
 
             listaEmpleados.innerHTML = "Cargando empleados...";
@@ -311,6 +505,13 @@ btnMenuGuardias.addEventListener("click", () => {
                          snapshot.forEach((doc) => {
 
                          const empleado = doc.data();
+                         
+
+                         verificarRenovacionEmpleado(doc.id, empleado);
+
+                                
+                         
+                         const proximaRenovacion = calcularProximaRenovacion(empleado.fechaIngreso);
 
                     listaEmpleados.innerHTML += `
 
@@ -331,7 +532,9 @@ btnMenuGuardias.addEventListener("click", () => {
 
                         💼 Puesto: ${empleado.puesto}<br>
 
-                        ✅ Estatus: ${empleado.estatus}
+                        ✅ Estatus: ${empleado.estatus}<br>
+
+                        📅 Próxima renovación: ${proximaRenovacion}<br>
 
                                  </div>
 
@@ -367,13 +570,26 @@ btnMenuGuardias.addEventListener("click", () => {
                             return;
 
                     }
-const fechaIngreso = new Date(fechaIngresoEmpleado.value);
+const hoy = new Date();
 
-const fechaRenovacion = new Date(fechaIngreso);
+const partes = fechaIngresoEmpleado.value.split("-");
 
-fechaRenovacion.setFullYear(fechaRenovacion.getFullYear() + 1);
+const anioIngreso = Number(partes[0]);
+const mesIngreso = Number(partes[1]) - 1;
+const diaIngreso = Number(partes[2]);
 
-const fechaRenovacionTexto = fechaRenovacion.toISOString().split("T")[0];
+let anioUltimaRenovacion = hoy.getFullYear();
+
+if (
+    hoy.getMonth() < mesIngreso ||
+        (hoy.getMonth() === mesIngreso && hoy.getDate() < diaIngreso)
+        ) {
+            anioUltimaRenovacion--;
+            }
+
+            const ultimaRenovacion =
+                `${anioUltimaRenovacion}-${String(mesIngreso + 1).padStart(2, "0")}-${String(diaIngreso).padStart(2, "0")}`;
+
         db.collection("empleados").add({
 
                 numeroEmpleado: numeroEmpleado.value,
@@ -382,7 +598,8 @@ const fechaRenovacionTexto = fechaRenovacion.toISOString().split("T")[0];
                 puesto: puestoEmpleado.value,
 
                 fechaIngreso: fechaIngresoEmpleado.value,
-                fechaRenovacion: fechaRenovacionTexto,
+                ultimaRenovacion: ultimaRenovacion,
+                
 
                 diasOtorgados: 0,
                 diasUtilizados: 0,
@@ -421,124 +638,10 @@ const fechaRenovacionTexto = fechaRenovacion.toISOString().split("T")[0];
 
 
         
-       btnGuardarGuardia.addEventListener("click", () => {
-
-            if (
-                    !fechaGuardia.value ||
-                    !horaEntrada.value ||
-                    !horaSalida.value ||
-                    !tipoGuardia.value
-                        ) {
-
-                    Swal.fire({
-                    icon: "warning",
-                    title: "Información incompleta",
-                    text: "Debe capturar todos los datos de la guardia."
-                         });
-
-                            return;
-                            }
-             db.collection("guardias").add({
-
-                    empleado: empleado.value,
-                        fecha: fechaGuardia.value,
-                            horaEntrada: horaEntrada.value,
-                                horaSalida: horaSalida.value,
-                                    tipoGuardia: tipoGuardia.value,
-                                        fechaRegistro: new Date()
-
-                                        })
-                                        .then(() => {
-
-                                            Swal.fire({
-                                                    icon: "success",
-                                                            title: "Guardia registrada",
-                                                                    text: "La guardia se registró correctamente."
-                                                                        });
-
-                                                                            fechaGuardia.value = "";
-                                                                                horaEntrada.value = "";
-                                                                                    horaSalida.value = "";
-                                                                                        tipoGuardia.value = "";
-
-                                                                                            moduloGuardias.style.display = "none";
-                                                                                                menuPrincipal.style.display = "block";
-
-                                                                                                })
-                                                                                                .catch((error) => {
-
-                                                                                                    console.error(error);
-
-                                                                                                        Swal.fire({
-                                                                                                                icon: "error",
-                                                                                                                        title: "Error",
-                                                                                                                                text: "No fue posible registrar la guardia."
-                                                                                                                                    });
-
-                                                                                                                                    });
-             })
+       
                                                                                                                 
        
-                        btnHistorial.addEventListener("click", () => {
-
-                                menuPrincipal.style.display = "none";
-                                    moduloHistorial.style.display = "block";
-                                     listaHistorial.innerHTML = "Cargando...";
-                                     db.collection("solicitudesVacaciones")
-                                     .where("empleado", "==", empleado.value)
-                                    
-                                     .get()
-                                     .then((querySnapshot) => {
-
-                                         listaHistorial.innerHTML = "";
-
-                                             if (querySnapshot.empty) {
-
-                                                     listaHistorial.innerHTML =
-                                                             "<p>No existen solicitudes.</p>";
-
-                                                                     return;
-                                                                         }
-
-                                                                             querySnapshot.forEach((doc) => {
-
-                                                                                     const datos = doc.data();
-
-                                                                                             listaHistorial.innerHTML += `
-                                                                                                     <div style="
-                                                                                                                 border:1px solid #ddd;
-                                                                                                                             border-radius:10px;
-                                                                                                                                         padding:15px;
-                                                                                                                                                     margin-bottom:15px;
-                                                                                                                                                                 text-align:left;
-                                                                                                                                                                         ">
-
-                                                                                                                                                                                     <b>📅 ${datos.fechaInicio} al ${datos.fechaFin}</b><br>
-
-                                                                                                                                                                                                 🏖 ${datos.dias} días<br>
-
-                                                                                                                                                                                                             🟡 ${datos.estatus}
-
-                                                                                                                                                                                                                     </div>
-                                                                                                                                                                                                                             `;
-
-                                                                                                                                                                                                                                 });
-
-                                                                                                                                                                                                                                 })
-                                                                                                                                                                                                                                 .catch((error)=>{
-
-                                                                                                                                                                                                                                     console.error(error);
-
-                                                                                                                                                                                                                                         listaHistorial.innerHTML="Error al consultar historial.";
-
-                                                                                                                                                                                                                                         });
-                                    });
-                        btnRegresarHistorial.addEventListener("click", () => {
-
-                                moduloHistorial.style.display = "none";
-                                    menuPrincipal.style.display = "block";
-
-                                    });
+                        
 
 function cargarHistorialGuardias() {
 
@@ -623,4 +726,4 @@ function cargarHistorialGuardias() {
                                                                                             text: error.message
                                                                                                 });
                                                                                             });
-}
+                                                                                        }
