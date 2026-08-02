@@ -129,6 +129,7 @@ const btnGuardarEmpleado = document.getElementById("btnGuardarEmpleado");
 const btnCancelarNuevoEmpleado = document.getElementById("btnCancelarNuevoEmpleado");
 const btnRegresarAdministrador = document.getElementById("btnRegresarAdministrador");
 
+let empleadoEditando = null;
 
 btnSolicitar.addEventListener("click", () => {
 
@@ -536,6 +537,12 @@ return `${anio}-${mes}-${dia}`;
 
                         📅 Próxima renovación: ${proximaRenovacion}<br>
 
+                        <br><br>
+
+                        <button onclick="editarEmpleado('${doc.id}')">
+                            ✏️ Editar
+                            </button>
+
                                  </div>
 
                       `;
@@ -553,7 +560,33 @@ return `${anio}-${mes}-${dia}`;
                           });
 
                    }
-    
+
+  function editarEmpleado(id) {
+
+      empleadoEditando = id;
+
+          db.collection("empleados").doc(id).get().then((doc) => {
+
+         if (!doc.exists) {
+            alert("Empleado no encontrado.");
+             return;
+                       }
+
+    const empleado = doc.data();
+
+         moduloConsultarEmpleados.style.display = "none";
+         moduloNuevoEmpleado.style.display = "block";
+
+        numeroEmpleado.value = empleado.numeroEmpleado || "";
+        numeroEmpleado.disabled = true;
+        nombreEmpleado.value = empleado.nombre || "";
+        areaEmpleado.value = empleado.area || "";
+        puestoEmpleado.value = empleado.puesto || "";
+        fechaIngresoEmpleado.value = empleado.fechaIngreso || "";
+
+                                 });
+
+                                        }  
 
 
     btnGuardarEmpleado.addEventListener("click", () => {
@@ -590,7 +623,7 @@ if (
             const ultimaRenovacion =
                 `${anioUltimaRenovacion}-${String(mesIngreso + 1).padStart(2, "0")}-${String(diaIngreso).padStart(2, "0")}`;
 
-        db.collection("empleados").add({
+        const datosEmpleado = {
 
                 numeroEmpleado: numeroEmpleado.value,
                 nombre: nombreEmpleado.value,
@@ -607,15 +640,29 @@ if (
 
                 estatus: "Activo"
 
-              })
-                .then(() => {
+              };
 
-                        Swal.fire({
-                                icon: "success",
-                                    title: "Empleado registrado",
-                                        text: "El empleado se registró correctamente.",
+              let operacion;
+
+              if (empleadoEditando) {
+                  operacion = db.collection("empleados")
+                          .doc(empleadoEditando)
+                                  .update(datosEmpleado);
+                                  } else {
+                                      operacion = db.collection("empleados")
+                                              .add(datosEmpleado);
+                                              }
+                operacion.then(() => {
+
+           Swal.fire({
+                icon: "success",
+                    title: empleadoEditando ? "Empleado actualizado" : "Empleado registrado",
+                        text: empleadoEditando
+                                ? "Los datos del empleado se actualizaron correctamente."
+                                        : "El empleado se registró correctamente.",
                                             confirmButtonColor: "#003366"
                                             });
+           
                         })
 
                             numeroEmpleado.value = "";
@@ -623,6 +670,8 @@ if (
                             areaEmpleado.value = "";
                             puestoEmpleado.value = "";
                             fechaIngresoEmpleado.value = "";
+                            
+                            empleadoEditando = null;
 
                              moduloNuevoEmpleado.style.display = "none";
                              moduloEmpleados.style.display = "block";
