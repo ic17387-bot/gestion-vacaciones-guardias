@@ -35,7 +35,7 @@ empleado.addEventListener("change", () => {
  const datos = querySnapshot.docs[0].data();
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
                   saldo.innerHTML =
-           "🏖 Saldo disponible: " + datos.saldo + " días";
+           "🏖 Saldo disponible: " + datos.diasDisponibles+ " días";
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
                         })
                   .catch((error) => {
@@ -60,21 +60,21 @@ function calcularDias() {
                         }
 
                             const inicio = new Date(fechaInicio.value);
-                                const fin = new Date(fechaFin.value);
+                             const fin = new Date(fechaFin.value);
 
-                                    const diferencia = fin - inicio;
+                            const diferencia = fin - inicio;
 
-                                        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24)) + 1;
+                             const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24)) + 1;
 
-                                            if (dias > 0) {
-                                                    diasSolicitados.innerHTML =
-                                                                "🏖 Días solicitados: <b>" + dias + "</b>";
-                                                                    }
+                             if (dias > 0) {
+                             diasSolicitados.innerHTML =
+                               "🏖 Días solicitados: <b>" + dias + "</b>";
+                                   }
 
-                                                                    }
+                               }
 
-                                                                    fechaInicio.addEventListener("change", calcularDias);
-                                                                    fechaFin.addEventListener("change", calcularDias);
+                         fechaInicio.addEventListener("change", calcularDias);
+                         fechaFin.addEventListener("change", calcularDias);
 const btnSolicitar = document.getElementById("btnSolicitar");
 const menuPrincipal = document.getElementById("menuPrincipal");
 const moduloVacaciones = document.getElementById("moduloVacaciones");
@@ -108,12 +108,20 @@ const btnAdministrador = document.getElementById("btnAdministrador");
 const moduloAdministrador = document.getElementById("moduloAdministrador");
 const btnAdministrarEmpleados = document.getElementById("btnAdministrarEmpleados");
 const btnAdministrarVacaciones = document.getElementById("btnAdministrarVacaciones");
+const moduloAdministrarVacaciones = document.getElementById("moduloAdministrarVacaciones");
+const btnRegresarAdministrarVacaciones = document.getElementById("btnRegresarAdministrarVacaciones");
+const btnConsultarVacaciones = document.getElementById("btnConsultarVacaciones");
+const btnRegresarConsultarVacaciones = document.getElementById("btnRegresarConsultarVacaciones");
+const moduloConsultarVacaciones = document.getElementById("moduloConsultarVacaciones");
+const empleadoConsulta = document.getElementById("empleadoConsulta");
+const listaVacaciones = document.getElementById("listaVacaciones");
 const btnAdministrarGuardias = document.getElementById("btnAdministrarGuardias");
 const btnDashboard = document.getElementById("btnDashboard");
 const moduloEmpleados = document.getElementById("moduloEmpleados");
 const btnNuevoEmpleado = document.getElementById("btnNuevoEmpleado");
 const btnConsultarEmpleados = document.getElementById("btnConsultarEmpleados");
 const btnRegresarEmpleados = document.getElementById("btnRegresarEmpleados");
+
 
 const moduloConsultarEmpleados = document.getElementById("moduloConsultarEmpleados");
 const btnRegresarConsultaEmpleados = document.getElementById("btnRegresarConsultaEmpleados");
@@ -134,61 +142,58 @@ let empleadoEditando = null;
 btnSolicitar.addEventListener("click", () => {
 
     console.log("BOTÓN PRESIONADO");
-    alert("Botón presionado");
+    
 
     if (!fechaInicio.value || !fechaFin.value) {
             alert("Seleccione las fechas.");
                     return;
                         }
 
-                            const inicio = new Date(fechaInicio.value);
-                                const fin = new Date(fechaFin.value);
+        const inicio = new Date(fechaInicio.value);
+        const fin = new Date(fechaFin.value);
 
-                                    const dias = Math.floor((fin - inicio) / (1000 * 60 * 60 * 24)) + 1;
+        const dias = Math.floor((fin - inicio) / (1000 * 60 * 60 * 24)) + 1;
 
-                                        db.collection("solicitudesVacaciones").add({
+            db.collection("solicitudesVacaciones").add({
 
-                                                empleado: empleado.value,
-                                                        fechaInicio: fechaInicio.value,
-                                                                fechaFin: fechaFin.value,
-                                                                        dias: dias,
-                                                                                estatus: "Pendiente",
-                                                                                        fechaSolicitud: new Date().toISOString()
+            empleado: empleado.value,
+            fechaInicio: fechaInicio.value,
+            fechaFin: fechaFin.value,
+            dias: dias,
+            estatus: "Pendiente",
+            fechaSolicitud: new Date().toISOString()
 
-                                                                                            })
-                                                                                                .then(() => {
+          })
+                .then(() => {
 
-                                                                                                        Swal.fire({
-                                                                                                                icon: "success",
-                                                                                                                        title: "Solicitud registrada",
-                                                                                                                                html: `
-                                                                                                                                            <b>${empleado.value}</b><br><br>
-                                                                                                                                                        📅 ${fechaInicio.value} al ${fechaFin.value}<br>
-                                                                                                                                                                    🏖 ${dias} días solicitados<br><br>
-                                                                                                                                                                                🟡 Estatus: Pendiente
-                                                                                                                                                                                        `,
-                                                                                                                                                                                                confirmButtonText: "Aceptar"
-                                                                                                                                                                                                    }).then(() => {
+                  Swal.fire({
+               icon: "success",
+                title: "Solicitud registrada",
+                 html: `
+             <b>${empleado.value}</b><br><br>
+           📅 ${fechaInicio.value} al ${fechaFin.value}<br>
+           🏖 ${dias} días solicitados<br><br>
+           🟡 Estatus: Pendiente
+                        `,
+                          confirmButtonText: "Aceptar"
+                          }).then(() => {
+                      fechaInicio.value = "";
+                      fechaFin.value = "";
+                       diasSolicitados.innerHTML = "";
 
-                                                                                                                                                                                                            fechaInicio.value = "";
-                                                                                                                                                                                                                    fechaFin.value = "";
-                                                                                                                                                                                                                            diasSolicitados.innerHTML = "";
+                                           });
 
-                                                                                                                                                                                                                                });
+                                            })
+                         .catch((error) => {
 
-                                                                                                                                                                                                                                })
-                                                                                                                
-                                                                                                                .catch((error) => {
+                         console.error(error);
+                              alert(
+                          "Código: " + error.code +
+                     "\n\nMensaje: " + error.message
+                                               );
 
-                                                                                                                        console.error(error);
-
-                                                                                                                            alert(
-                                                                                                                                    "Código: " + error.code +
-                                                                                                                                            "\n\nMensaje: " + error.message
-                                                                                                                                                );
-
-                                                                                                                                                });
-                                                                                                                })
+                                                           });
+                                     })
                                                                                                                                                 
 
          btnMenuVacaciones.addEventListener("click", () => {
@@ -376,6 +381,298 @@ btnMenuGuardias.addEventListener("click", () => {
                 moduloEmpleados.style.display = "block";
 
                 });
+
+        btnAdministrarVacaciones.addEventListener("click", () => {
+
+                moduloAdministrador.style.display = "none";
+                moduloAdministrarVacaciones.style.display = "block";
+
+                    });
+        
+        btnRegresarAdministrarVacaciones.addEventListener("click", () => {
+
+                moduloAdministrarVacaciones.style.display = "none";
+                moduloAdministrador.style.display = "block";
+
+                     });
+
+    async function cargarEmpleadosConsulta() {
+
+            try {
+
+                    const snapshot = await db
+                                .collection("empleados")
+                                            .get();
+
+                empleadoConsulta.innerHTML = `
+                 <option value="">Seleccione un empleado...</option>
+                                                                        `;
+
+                        snapshot.forEach((doc) => {
+
+                         const empleado = doc.data();
+
+                          empleadoConsulta.innerHTML += `
+                       <option value="${empleado.nombre}">
+                                           ${empleado.nombre}                                                          </option>
+                                          `;
+
+                                         });
+
+                 } catch (error) {
+
+                 console.error("Error al cargar empleados para consulta:", error);
+
+                 empleadoConsulta.innerHTML = `
+                <option value="">Error al cargar empleados</option>
+                                                `;
+                                                     }
+                                      }
+    
+
+    async function consultarVacacionesEmpleado() {
+
+            const nombreEmpleado = empleadoConsulta.value;
+
+                if (!nombreEmpleado) {
+                        listaVacaciones.innerHTML = "";
+                                return;
+                                    }
+
+                        listaVacaciones.innerHTML = "Consultando vacaciones...";
+
+                      try {
+
+    const snapshot = await db
+        .collection("solicitudesVacaciones")
+        .where("empleado", "==", nombreEmpleado)
+        .get();
+
+        if (snapshot.empty) {
+
+            listaVacaciones.innerHTML =    
+         "No existen solicitudes de vacaciones para este empleado.";
+
+                   return;
+                                       }
+
+            listaVacaciones.innerHTML = "";
+
+         snapshot.forEach((doc) => {
+
+        const vacaciones = doc.data();
+
+        listaVacaciones.innerHTML += `
+                    <div style="
+             border:1px solid #ddd;
+             border-radius:10px;
+             padding:15px;
+             margin-bottom:15px;
+             background:white;
+             text-align:left;
+                ">
+
+              <strong>Fecha de inicio:</strong>
+                          ${vacaciones.fechaInicio || ""}<br>
+
+             <strong>Fecha final:</strong>
+                           ${vacaciones.fechaFin || ""}<br>
+
+             <strong>Días solicitados:</strong>
+                          ${vacaciones.dias || ""}<br>
+
+             <strong>Estatus:</strong>
+                          ${vacaciones.estatus || ""}
+
+                         <div style="
+                         display:flex;
+                        gap:10px;                                                                                                                                                               margin-top:15px;
+                        flex-wrap:wrap;
+                             ">
+
+                        <button
+                      onclick="autorizarVacacion('${doc.id}')"
+                       style="
+                        background:#198754;
+                       color:white;
+                           border:none;
+                           padding:10px 15px;
+                           border-radius:8px;
+                            cursor:pointer;
+                              ">
+                          ✅ Autorizar
+                           </button>
+
+                            <button
+                          onclick="editarVacacion('${doc.id}')"
+                              style="
+                              background:#0d6efd;
+                             color:white;
+                           border:none;
+                          padding:10px 15px;
+                        border-radius:8px;
+                          cursor:pointer;
+                             ">
+                              ✏️ Editar
+                               </button>
+
+                           <button
+                          onclick="cancelarVacacion('${doc.id}')"
+                          style="
+                           background:#dc3545;
+                          color:white;
+                          border:none;                                                                                                                                                                                                                                                                                                                                         padding:10px 15px;
+                            border-radius:8px;                                                                                                                                                                                                                                                 cursor:pointer;
+                                      ">
+                       ❌ Cancelar
+                          </button>
+
+                          </div>
+
+                                  
+                          </div>
+                                      `;
+                                                });
+                                            }catch (error) {
+                                                console.error("Error al consultar vacaciones", error);
+
+                                                listaVacaciones.innerHTML =
+                                                "Error al consultar vacaciones.";
+                                            }
+                                        }
+                    
+    
+    
+
+        btnConsultarVacaciones.addEventListener("click", () => {
+            moduloAdministrarVacaciones.style.display = "none";
+                moduloConsultarVacaciones.style.display = "block";
+                cargarEmpleadosConsulta();
+                });   
+                
+        empleadoConsulta.addEventListener("change", () => {
+
+                consultarVacacionesEmpleado();
+
+                });
+        
+        btnRegresarConsultarVacaciones.addEventListener("click", () => {
+                moduloConsultarVacaciones.style.display = "none";
+                    moduloAdministrarVacaciones.style.display = "block";
+                    });
+
+async function autorizarVacacion(idSolicitud) {
+
+        try {
+
+                const solicitudRef = db
+                 .collection("solicitudesVacaciones")
+                .doc(idSolicitud);
+
+                const doc = await solicitudRef.get();
+
+                    if (!doc.exists) {
+
+                        Swal.fire({
+                         icon: "error",
+                        title: "Solicitud no encontrada",
+                        text: "La solicitud ya no existe."
+                                               });
+
+                                   return;
+                                }
+
+                      const datos = doc.data();
+
+                      if (datos.estatus !== "Pendiente") {
+
+                       Swal.fire({
+                     icon: "warning",
+                     title: "Solicitud no disponible",
+                     text: `Esta solicitud ya tiene estatus: ${datos.estatus}`
+                                                   });
+
+                          return;
+                              }
+
+                      const confirmacion = await Swal.fire({
+                      icon: "question",
+                      title: "¿Autorizar solicitud?",
+                         html: `
+                      <b>${datos.empleado}</b><br><br>
+                      📅 ${datos.fechaInicio} al ${datos.fechaFin}<br>
+                      🏖 ${datos.dias} días
+                                        `,
+                      showCancelButton: true,
+                            confirmButtonText: "Sí, autorizar",
+                            cancelButtonText: "Cancelar"
+                                        });
+
+                     if (!confirmacion.isConfirmed) {
+                          return;
+                                   }
+// Buscar al empleado
+const empleadoQuery = await db.collection("empleados")
+    .where("nombre", "==", datos.empleado)
+        .get();
+
+        if (empleadoQuery.empty) {
+            await Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: `No se encontró al empleado ${datos.empleado}.`
+                                        });
+                                            return;
+                                            }
+
+                                            const empleadoDoc = empleadoQuery.docs[0];
+                                            const empleadoRef = empleadoDoc.ref;
+                                            const empleado = empleadoDoc.data();
+
+                                            // Verificar días disponibles
+                                            if (empleado.diasDisponibles < datos.dias) {
+                                                await Swal.fire({
+                                                        icon: "warning",
+                                                        title: "Días insuficientes",
+                                                        text: `El empleado ${datos.empleado} solamente tiene ${empleado.diasDisponibles} días disponibles.`
+                                                                            });
+                                                                return;
+                                                                   }
+
+                                 // Descontar días
+                                await empleadoRef.update({
+                                diasDisponibles: empleado.diasDisponibles - datos.dias,
+                                diasUtilizados: (empleado.diasUtilizados || 0) + datos.dias
+                                       });
+
+                    await solicitudRef.update({   
+                   estatus: "Autorizada",
+                   fechaAutorizacion: new Date().toISOString()
+                                                });
+
+
+                           await Swal.fire({
+                          icon: "success",
+                            title: "Solicitud autorizada",
+                          text: "La solicitud fue autorizada correctamente.",
+                        confirmButtonText: "Aceptar"
+                              });
+
+                        consultarVacacionesEmpleado();
+
+                     } catch (error) {
+
+                console.error("Error al autorizar vacaciones:", error);
+
+                Swal.fire({
+                icon: "error",
+                title: "Error al autorizar",
+                text: error.message
+                         });
+                         }
+                   }
+
+
         btnRegresarEmpleados.addEventListener("click", () => {
 
             moduloEmpleados.style.display = "none";
@@ -773,6 +1070,6 @@ function cargarHistorialGuardias() {
                                                                             icon: "error",
                                                                                     title: "Error",
                                                                                             text: error.message
-                                                                                                });
+                                                                                                });                
                                                                                             });
                                                                                         }
