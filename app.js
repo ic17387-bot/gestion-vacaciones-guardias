@@ -117,6 +117,15 @@ const empleadoConsulta = document.getElementById("empleadoConsulta");
 const listaVacaciones = document.getElementById("listaVacaciones");
 const btnAdministrarGuardias = document.getElementById("btnAdministrarGuardias");
 const btnDashboard = document.getElementById("btnDashboard");
+const moduloAdministradorGuardias = document.getElementById("moduloAdministradorGuardias");
+const btnConsultarGuardiasAdmin = document.getElementById("btnConsultarGuardiasAdmin");
+const moduloConsultarGuardiasAdmin = document.getElementById("moduloConsultarGuardiasAdmin");
+const btnRegresarConsultarGuardiasAdmin = document.getElementById("btnRegresarConsultarGuardiasAdmin");
+const empleadoConsultaGuardias = document.getElementById("empleadoConsultaGuardias");
+const btnEditarGuardiaAdmin = document.getElementById("btnEditarGuardiaAdmin");
+const moduloEditarGuardiaAdmin = document.getElementById("moduloEditarGuardiaAdmin");
+const btnRegresarEditarGuardiaAdmin = document.getElementById("btnRegresarEditarGuardiaAdmin");
+const empleadoEditarGuardia = document.getElementById("empleadoEditarGuardia");
 const moduloEmpleados = document.getElementById("moduloEmpleados");
 const btnNuevoEmpleado = document.getElementById("btnNuevoEmpleado");
 const btnConsultarEmpleados = document.getElementById("btnConsultarEmpleados");
@@ -363,12 +372,71 @@ btnRegresarHistorialGuardias.addEventListener("click", () => {
 
 });
 
-btnAdministrador.addEventListener("click", () => {
+btnAdministrador.addEventListener("click", async () => {
+
+    const resultado = await Swal.fire({
+
+        title: "🔐 Acceso de Administrador",
+
+        text: "Ingrese la contraseña para continuar.",
+
+        input: "password",
+
+        inputPlaceholder: "Contraseña",
+
+        inputAttributes: {
+            autocapitalize: "off",
+            autocorrect: "off"
+        },
+
+        showCancelButton: true,
+
+        confirmButtonText: "Ingresar",
+        cancelButtonText: "Cancelar",
+
+        preConfirm: (password) => {
+
+            if (!password) {
+
+                Swal.showValidationMessage(
+                    "Ingrese la contraseña."
+                );
+
+                return false;
+            }
+
+            return password;
+        }
+
+    });
+
+    if (!resultado.isConfirmed) {
+        return;
+    }
+
+    const contraseñaCorrecta = "Barcelona10";
+
+    if (resultado.value !== contraseñaCorrecta) {
+
+        await Swal.fire({
+
+            icon: "error",
+
+            title: "Acceso denegado",
+
+            text: "La contraseña es incorrecta."
+
+        });
+
+        return;
+    }
 
     menuPrincipal.style.display = "none";
     moduloAdministrador.style.display = "block";
 
 });
+
+
 btnRegresarAdministrador.addEventListener("click", () => {
 
     moduloAdministrador.style.display = "none";
@@ -395,6 +463,66 @@ btnRegresarAdministrarVacaciones.addEventListener("click", () => {
     moduloAdministrador.style.display = "block";
 
 });
+
+btnAdministrarGuardias.addEventListener("click", () => {
+
+    moduloAdministrador.style.display = "none";
+    moduloAdministradorGuardias.style.display = "block";
+
+});
+
+btnConsultarGuardiasAdmin.addEventListener("click", () => {
+
+    moduloAdministradorGuardias.style.display = "none";
+    moduloConsultarGuardiasAdmin.style.display = "block";
+
+    cargarEmpleadosConsultaGuardias();
+
+});
+
+empleadoEditarGuardia.addEventListener("change", () => {
+
+    consultarGuardiasParaEditar();
+
+});
+
+
+btnEditarGuardiaAdmin.addEventListener("click", () => {
+
+    moduloAdministradorGuardias.style.display = "none";
+    moduloEditarGuardiaAdmin.style.display = "block";
+
+    cargarEmpleadosEditarGuardia();
+
+});
+
+btnRegresarEditarGuardiaAdmin.addEventListener("click", () => {
+
+    moduloEditarGuardiaAdmin.style.display = "none";
+    moduloAdministradorGuardias.style.display = "block";
+
+});
+
+empleadoConsultaGuardias.addEventListener("change", () => {
+
+    consultarGuardiasEmpleado();
+
+});
+
+btnRegresarConsultarGuardiasAdmin.addEventListener("click", () => {
+
+    moduloConsultarGuardiasAdmin.style.display = "none";
+    moduloAdministradorGuardias.style.display = "block";
+
+});
+
+btnRegresarAdministradorGuardias.addEventListener("click", () => {
+
+    moduloAdministradorGuardias.style.display = "none";
+    moduloAdministrador.style.display = "block";
+
+});
+
 
 async function cargarEmpleadosConsulta() {
 
@@ -426,6 +554,425 @@ async function cargarEmpleadosConsulta() {
         empleadoConsulta.innerHTML = `
                 <option value="">Error al cargar empleados</option>
                                                 `;
+    }
+}
+
+async function cargarEmpleadosConsultaGuardias() {
+
+    const selector = document.getElementById("empleadoConsultaGuardias");
+
+    try {
+
+        const snapshot = await db
+            .collection("empleados")
+            .orderBy("nombre")
+            .get();
+
+        selector.innerHTML =
+            '<option value="">Seleccione un empleado...</option>';
+
+        snapshot.forEach((doc) => {
+
+            const empleado = doc.data();
+
+            selector.innerHTML += `
+                                                                                                                        <option value="${empleado.nombre}">
+                                                                                                                                            ${empleado.nombre}
+                                                                                                                                                            </option>
+                                                                                                                                                                        `;
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Error al cargar empleados para guardias:",
+            error
+        );
+
+        selector.innerHTML =
+            '<option value="">Error al cargar empleados</option>';
+    }
+}
+
+async function cargarEmpleadosEditarGuardia() {
+
+    const selector = document.getElementById("empleadoEditarGuardia");
+
+    try {
+
+        const snapshot = await db
+            .collection("empleados")
+            .orderBy("nombre")
+            .get();
+
+        selector.innerHTML =
+            '<option value="">Seleccione un empleado...</option>';
+
+        snapshot.forEach((doc) => {
+
+            const empleado = doc.data();
+
+            selector.innerHTML += `
+                <option value="${empleado.nombre}">
+                ${empleado.nombre}
+                      </option>
+                    `;
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Error al cargar empleados para editar guardias:",
+            error
+        );
+
+        selector.innerHTML =
+            '<option value="">Error al cargar empleados</option>';
+    }
+}
+
+async function consultarGuardiasParaEditar() {
+
+    const empleadoSeleccionado =
+        document.getElementById("empleadoEditarGuardia").value;
+
+    const lista =
+        document.getElementById("listaEditarGuardiasAdmin");
+
+    if (!empleadoSeleccionado) {
+
+        lista.innerHTML = "";
+
+        return;
+    }
+
+    lista.innerHTML = "Cargando guardias...";
+
+    try {
+
+        const snapshot = await db
+            .collection("guardias")
+            .where("empleado", "==", empleadoSeleccionado)
+            .orderBy("fecha", "desc")
+            .get();
+
+        lista.innerHTML = "";
+
+        if (snapshot.empty) {
+
+            lista.innerHTML = `
+             <p style="text-align:center;">
+              No existen guardias registradas para este empleado.
+                               </p>
+                    `;
+
+            return;
+        }
+
+        snapshot.forEach((doc) => {
+
+            const guardia = doc.data();
+
+            lista.innerHTML += `
+            <div style="
+            border:1px solid #ddd;
+            border-radius:10px;
+            padding:15px;
+            margin-bottom:15px;
+            text-align:left;
+            background:white;
+                    ">
+
+            🛡️ <b>Guardia</b><br><br>
+
+            📅 Fecha: <b>${guardia.fecha}</b><br>
+
+            🕐 Entrada: <b>${guardia.horaEntrada}</b><br>
+
+            🕐 Salida: <b>${guardia.horaSalida}</b><br>
+
+            🔹 Tipo: <b>${guardia.tipoGuardia}</b><br><br>
+
+        <button onclick="editarGuardia('${doc.id}')">
+                   ✏️ Editar
+                    </button>
+
+                                 </div>
+                    `;
+        });
+
+    } catch (error) {
+
+        console.error("Error al consultar guardias para editar:", error);
+
+        lista.innerHTML = `
+            <p style="text-align:center;">
+            Error al consultar las guardias.
+                     </p>
+                      `;
+    }
+}
+
+async function editarGuardia(idGuardia) {
+
+    try {
+
+        const doc = await db
+            .collection("guardias")
+            .doc(idGuardia)
+            .get();
+
+        if (!doc.exists) {
+
+            Swal.fire({
+                icon: "error",
+                title: "Guardia no encontrada"
+            });
+
+            return;
+        }
+
+        const guardia = doc.data();
+
+        const resultado = await Swal.fire({
+
+            title: "✏️ Editar Guardia",
+
+            html: `
+                                                                                                                                                                                                <div style="text-align:left;">
+
+                                                                                                                                                                                                                    <p>
+                                                                                                                                                                                                                                            🛡️ <b>Empleado:</b> ${guardia.empleado}
+                                                                                                                                                                                                                                                                </p>
+
+                                                                                                                                                                                                                                                                                    <p>
+                                                                                                                                                                                                                                                                                                            🕐 <b>Entrada:</b> ${guardia.horaEntrada}
+                                                                                                                                                                                                                                                                                                                                </p>
+
+                                                                                                                                                                                                                                                                                                                                                    <p>
+                                                                                                                                                                                                                                                                                                                                                                            🕐 <b>Salida:</b> ${guardia.horaSalida}
+                                                                                                                                                                                                                                                                                                                                                                                                </p>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                    <p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                            🔹 <b>Tipo:</b> ${guardia.tipoGuardia}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                </p>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <hr>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <label><b>📅 Fecha de guardia</b></label>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <input
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    type="date"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            id="fechaGuardiaEditar"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    class="swal2-input"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            value="${guardia.fecha}"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                >
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            `,
+
+            showCancelButton: true,
+
+            confirmButtonText: "💾 Guardar fecha",
+            cancelButtonText: "Cancelar",
+
+            showDenyButton: true,
+            denyButtonText: "🗑️ Cancelar guardia",
+            denyButtonColor: "#dc3545",
+
+            preConfirm: () => {
+
+                const fecha =
+                    document.getElementById("fechaGuardiaEditar").value;
+
+                if (!fecha) {
+
+                    Swal.showValidationMessage(
+                        "La fecha es obligatoria."
+                    );
+
+                    return false;
+                }
+
+                return {
+                    fecha
+                };
+            }
+
+        });
+
+        // Si seleccionó "Cancelar guardia"
+        if (resultado.isDenied) {
+
+            const confirmarCancelacion = await Swal.fire({
+
+                icon: "warning",
+
+                title: "¿Cancelar guardia?",
+
+                html: `
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <b>${guardia.empleado}</b><br><br>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    📅 ${guardia.fecha}<br>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        🕐 ${guardia.horaEntrada} - ${guardia.horaSalida}<br><br>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Esta acción cancelará esta guardia.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            `,
+
+                showCancelButton: true,
+
+                confirmButtonText: "Sí, cancelar guardia",
+                cancelButtonText: "No, regresar",
+
+                confirmButtonColor: "#dc3545"
+
+            });
+
+            if (!confirmarCancelacion.isConfirmed) {
+                return;
+            }
+
+            await db
+                .collection("guardias")
+                .doc(idGuardia)
+                .delete();
+
+            await Swal.fire({
+
+                icon: "success",
+
+                title: "Guardia cancelada",
+
+                text: "La guardia se canceló correctamente."
+
+            });
+
+            consultarGuardiasParaEditar();
+
+            return;
+        }
+
+        // Si no guardó cambios
+        if (!resultado.isConfirmed) {
+            return;
+        }
+
+        // Actualizar solamente la fecha
+        await db
+            .collection("guardias")
+            .doc(idGuardia)
+            .update({
+
+                fecha: resultado.value.fecha
+
+            });
+
+        await Swal.fire({
+
+            icon: "success",
+
+            title: "Guardia actualizada",
+
+            text: "La fecha se modificó correctamente."
+
+        });
+
+        consultarGuardiasParaEditar();
+
+    } catch (error) {
+
+        console.error("Error al editar guardia:", error);
+
+        Swal.fire({
+
+            icon: "error",
+
+            title: "Error",
+
+            text: error.message
+
+        });
+    }
+}
+
+
+
+async function consultarGuardiasEmpleado() {
+
+    const empleadoSeleccionado =
+        document.getElementById("empleadoConsultaGuardias").value;
+
+    const lista =
+        document.getElementById("listaGuardiasAdmin");
+
+    if (!empleadoSeleccionado) {
+
+        lista.innerHTML = "";
+
+        return;
+    }
+
+    lista.innerHTML = "Cargando guardias...";
+
+    try {
+
+        const snapshot = await db
+            .collection("guardias")
+            .where("empleado", "==", empleadoSeleccionado)
+            .orderBy("fecha", "desc")
+            .get();
+
+        lista.innerHTML = "";
+
+        if (snapshot.empty) {
+
+            lista.innerHTML = `
+              <p style="text-align:center;">
+              No existen guardias registradas para este empleado.
+                         </p>
+                               `;
+
+            return;
+        }
+
+        snapshot.forEach((doc) => {
+
+            const guardia = doc.data();
+
+            lista.innerHTML += `
+                 <div style="
+                  border:1px solid #ddd;
+                  border-radius:10px;
+                    padding:15px;
+                    margin-bottom:15px;
+                    text-align:left;
+                     background:white;
+                       ">
+
+                🛡️ <b>Guardia</b><br><br>
+
+                📅 Fecha: <b>${guardia.fecha}</b><br>
+
+                🕐 Entrada: <b>${guardia.horaEntrada}</b><br>
+
+                🕐 Salida: <b>${guardia.horaSalida}</b><br>
+
+                🔹 Tipo: <b>${guardia.tipoGuardia}</b>
+
+                         </div>
+                  `;
+        });
+
+    } catch (error) {
+
+        console.error("Error al consultar guardias:", error);
+
+        lista.innerHTML = `
+         <p style="text-align:center;">
+         Error al consultar las guardias.                                                                                                         
+           </p>
+                         `;
     }
 }
 

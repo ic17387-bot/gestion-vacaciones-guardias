@@ -1,329 +1,451 @@
-<!DOCTYPE html><html lang="es"><head>  <meta charset="UTF-8">  <meta name="viewport" content="width=device-width, initial-scale=1">  <title>Gestión de Vacaciones y Guardias</title>
-  <style>    body{      margin:0;      font-family:Arial, sans-serif;      background:#003366;      color:white;      display:flex;      justify-content:center;      align-items:center;      min-height:100vh;    }
-    .contenedor{      width:90%;      max-width:500px;      background:white;      color:#003366;      border-radius:20px;      padding:30px;      text-align:center;      box-shadow:0 10px 30px rgba(0,0,0,.3);    }
-    h1{      margin-top:0;    }
-    select,    button{      width:100%;      padding:15px;      margin-top:15px;      border-radius:10px;      border:1px solid #ccc;      font-size:16px;    }
-    button{      background:#003366;      color:white;      border:none;      cursor:pointer;    }
-    button:hover{      opacity:.9;    }  label{
-            display:block;
-                text-align:left;
-                    margin-top:15px;
-                        margin-bottom:5px;
-                            font-weight:bold;
-                                color:#003366;
-                                }
-                                
-                                input{
-                                    width:100%;
-                                        padding:10px;
-                                            box-sizing:border-box;
-                                                border:1px solid #ccc;
-                                                    border-radius:8px;
-                                                        font-size:16px;
-                                                        }</style></head><body>
-<div class="contenedor">
-  <h1>Gestión de Vacaciones y Guardias</h1>
-  <p>Seleccione su nombre:</p>
-  <select id="empleado"> 
-       <option>Seleccione...</option>    
-       <option>Marisa</option>    
-       <option>Itzolma</option>    
-       <option>Leonardo</option>    
-       <option>Bogar</option>    
-       <option>Cynthia</option>    
-       <option>Valeria</option>    
-       <option>Sergio</option>    
-       <option>Carlos</option>    
-       <option>Antonio</option>    
-       <option>Daniel</option>    
-       <option>Ivan</option>  
-      </select>
-      
-  <div id="infoEmpleado" style="display:none; margin-top:20px; background:#f5f5f5; padding:15px; border-radius:10px;">
+<!DOCTYPE html>
+<html lang="es">
 
-  <h2 id="bienvenida" style="color:#003366;"></h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestión de Vacaciones y Guardias</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #003366;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-  <p id="saldo" style="font-size:18px;"></p>
+        .contenedor {
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            color: #003366;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
+        }
 
-  <hr>
+        h1 {
+            margin-top: 0;
+        }
 
-  <div id="moduloVacaciones" style="display:none;">
+        select,
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
 
-  <h3>🏖 Solicitud de Vacaciones</h3>
+        button {
+            background: #003366;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
 
-  <label>Fecha de inicio</label><br>
-  <input type="date" id="fechaInicio"><br><br>
+        button:hover {
+            opacity: .9;
+        }
 
-  <label>Fecha de fin</label><br>
-  <input type="date" id="fechaFin"><br><br>
+        label {
+            display: block;
+            text-align: left;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #003366;
+        }
 
-  <p id="diasSolicitados"></p>
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+    </style>
+</head>
 
-  <button id="btnSolicitar">
-      Solicitar Vacaciones
-      </button>
+<body>
+    <div class="contenedor">
+        <h1>Gestión de Vacaciones y Guardias</h1>
+        <p>Seleccione su nombre:</p>
+        <select id="empleado">
+            <option>Seleccione...</option>
+            <option>Marisa</option>
+            <option>Itzolma</option>
+            <option>Leonardo</option>
+            <option>Bogar</option>
+            <option>Cynthia</option>
+            <option>Valeria</option>
+            <option>Sergio</option>
+            <option>Carlos</option>
+            <option>Antonio</option>
+            <option>Daniel</option>
+            <option>Ivan</option>
+        </select>
 
-      <button id="btnRegresarVacaciones">
-            ⬅ Regresar
-            </button>
+        <div id="infoEmpleado"
+            style="display:none; margin-top:20px; background:#f5f5f5; padding:15px; border-radius:10px;">
+
+            <h2 id="bienvenida" style="color:#003366;"></h2>
+
+            <p id="saldo" style="font-size:18px;"></p>
+
+            <hr>
+
+            <div id="moduloVacaciones" style="display:none;">
+
+                <h3>🏖 Solicitud de Vacaciones</h3>
+
+                <label>Fecha de inicio</label><br>
+                <input type="date" id="fechaInicio"><br><br>
+
+                <label>Fecha de fin</label><br>
+                <input type="date" id="fechaFin"><br><br>
+
+                <p id="diasSolicitados"></p>
+
+                <button id="btnSolicitar">
+                    Solicitar Vacaciones
+                </button>
+
+                <button id="btnRegresarVacaciones">
+                    ⬅ Regresar
+                </button>
 
             </div>
 
             <div id="moduloHistorial" style="display:none;">
 
-                  <h2>📋 Historial de Solicitudes</h2>
+                <h2>📋 Historial de Solicitudes</h2>
 
-                      <div id="listaHistorial"></div>
+                <div id="listaHistorial"></div>
 
-                          <br>
+                <br>
 
-                              <button id="btnRegresarHistorial">
-                                      ⬅ Regresar
-                                          </button>
+                <button id="btnRegresarHistorial">
+                    ⬅ Regresar
+                </button>
 
-                                          </div>
-<div id="moduloGuardias" style="display:none; background:#f5f5f5; padding:15px; border-radius:10px;">
+            </div>
+            <div id="moduloGuardias" style="display:none; background:#f5f5f5; padding:15px; border-radius:10px;">
 
-        <h2>🛡 Registro de Guardia</h2>
+                <h2>🛡 Registro de Guardia</h2>
 
-            <label>Fecha de la guardia</label><br>
+                <label>Fecha de la guardia</label><br>
                 <input type="date" id="fechaGuardia"><br><br>
 
-            <label>Hora de entrada</label><br>
+                <label>Hora de entrada</label><br>
                 <input type="time" id="horaEntrada" step="60"><br><br>
 
-            <label>Hora de salida</label><br>
-                 <input type="time" id="horaSalida" step="60"><br><br>
+                <label>Hora de salida</label><br>
+                <input type="time" id="horaSalida" step="60"><br><br>
 
-            <label>Tipo de guardia</label><br>
+                <label>Tipo de guardia</label><br>
                 <select id="tipoGuardia">
-                        <option value="">Seleccione...</option>
-                        <option>Sábado</option>
-                        <option>Domingo</option>
-                        <option>Festivo</option>
-                        </select>
+                    <option value="">Seleccione...</option>
+                    <option>Sábado</option>
+                    <option>Domingo</option>
+                    <option>Festivo</option>
+                </select>
 
-                        <br><br>
+                <br><br>
 
-                        <button id="btnGuardarGuardia">
-                            Registrar Guardia
-                        </button>
+                <button id="btnGuardarGuardia">
+                    Registrar Guardia
+                </button>
 
-                        <button id="btnRegresarGuardias">
-                        ⬅ Regresar
-                        </button>
+                <button id="btnRegresarGuardias">
+                    ⬅ Regresar
+                </button>
 
-                        </div>
+            </div>
 
-    <div id="moduloHistorialGuardias" style="display:none;">
+            <div id="moduloHistorialGuardias" style="display:none;">
 
-            <h2>📋 Historial de Guardias</h2>
+                <h2>📋 Historial de Guardias</h2>
 
-            <p id="totalGuardias" style="
+                <p id="totalGuardias" style="
                 text-align:center;
                     color:#123A73;
                         font-weight:bold;
                             margin-top:-10px;
                                 margin-bottom:15px;
                                 ">
-                                </p>
+                </p>
 
-                                <div id="listaHistorialGuardias"></div>
+                <div id="listaHistorialGuardias"></div>
 
-            <br>
+                <br>
 
-            <button id="btnRegresarHistorialGuardias">
-                ⬅ Regresar
+                <button id="btnRegresarHistorialGuardias">
+                    ⬅ Regresar
                 </button>
 
-                </div>
+            </div>
 
-<div id="moduloAdministrador" style="display:none;">
+            <div id="moduloAdministrador" style="display:none;">
 
-        <h2 style="color:#123A73; text-align:center;">
-                👨‍💼 Panel de Administrador
-                    </h2>
-
-        <button id="btnAdministrarEmpleados">
-                👥 Administración de Empleados
-                    </button>
-
-        <button id="btnAdministrarVacaciones">
-                🌴 Administración de Vacaciones
-                    </button>
-
-        <button id="btnAdministrarGuardias">
-                🛡 Administración de Guardias
-                    </button>
-
-        <button id="btnDashboard">
-                📊 Dashboard
-                    </button>
-
-                    <br><br>
-
-        <button id="btnRegresarAdministrador">
-            ⬅️ Regresar
-                    </button>
-
-                    </div>
-<div id="moduloEmpleados" style="display:none;">
-
-        <h2 style="color:#123A73; text-align:center;">
-                👥 Administración de Empleados
-                    </h2>
-
-        <button id="btnNuevoEmpleado">
-                ➕ Nuevo Empleado
-                    </button>
-
-        <button id="btnConsultarEmpleados">
-                📋 Consultar Empleados
-                    </button>
-
-        <button id="btnRegresarEmpleados">
-                ⬅️ Regresar
-                    </button>
-
-                </div>
-<div id="moduloNuevoEmpleado" style="display:none;">
-
-        <h2 style="text-align:center; color:#003366;">
-                ➕ Nuevo Empleado
+                <h2 style="color:#123A73; text-align:center;">
+                    👨‍💼 Panel de Administrador
                 </h2>
 
-        <label>Número de empleado</label>
-        <input type="text" id="numeroEmpleado">
+                <button id="btnAdministrarEmpleados">
+                    👥 Administración de Empleados
+                </button>
 
-        <label>Nombre completo</label>
-        <input type="text" id="nombreEmpleado">
+                <button id="btnAdministrarVacaciones">
+                    🌴 Administración de Vacaciones
+                </button>
 
-        <label>Área</label>
-        <input type="text" id="areaEmpleado">
+                <button id="btnAdministrarGuardias">
+                    🛡 Administración de Guardias
+                </button>
 
-        <label>Puesto</label>
-        <input type="text" id="puestoEmpleado">
+                <br><br>
 
-        <label>Fecha de ingreso</label>
-        <input type="date" id="fechaIngresoEmpleado">
+                <button id="btnRegresarAdministrador">
+                    ⬅️ Regresar
+                </button>
 
-        <br><br>
+            </div>
 
-        <button id="btnGuardarEmpleado">
-                  💾 Guardar Empleado
-        </button>
+            <div id="moduloAdministradorGuardias" style="display:none;">
 
-        <button id="btnCancelarNuevoEmpleado">
+                <h2 style="color:#123A73; text-align:center;">
+                    🛡 Administración de Guardias
+                </h2>
+
+                <button id="btnConsultarGuardiasAdmin">
+                    📋 Consultar Guardias
+                </button>
+
+                <button id="btnEditarGuardiaAdmin">
+                    ✏️ Editar Guardia
+                </button>
+
+                <br><br>
+
+                <button id="btnRegresarAdministradorGuardias">
+                    ⬅️ Regresar
+                </button>
+
+            </div>
+
+            <div id="moduloConsultarGuardiasAdmin" style="display:none;">
+
+                <h2 style="color:#123A73; text-align:center;">
+                    📋 Consultar Guardias
+                </h2>
+
+                <label>Seleccione un empleado</label>
+
+                <select id="empleadoConsultaGuardias">
+                    <option value="">Seleccione un empleado...</option>
+                </select>
+
+                <br><br>
+
+                <div id="listaGuardiasAdmin"></div>
+
+                <br>
+
+                <button id="btnRegresarConsultarGuardiasAdmin">
+                    ⬅️ Regresar
+                </button>
+
+            </div>
+
+            <div id="moduloEditarGuardiaAdmin" style="display:none;">
+
+                <h2 style="color:#123A73; text-align:center;">
+                    ✏️ Editar Guardia
+                </h2>
+
+                <label>Seleccione un empleado</label>
+
+                <select id="empleadoEditarGuardia">
+                    <option value="">Seleccione un empleado...</option>
+                </select>
+
+                <br><br>
+
+                <div id="listaEditarGuardiasAdmin"></div>
+
+                <br>
+
+                <button id="btnRegresarEditarGuardiaAdmin">
+                    ⬅️ Regresar
+                </button>
+
+            </div>
+
+            <div id="moduloEmpleados" style="display:none;">
+
+                <h2 style="color:#123A73; text-align:center;">
+                    👥 Administración de Empleados
+                </h2>
+
+                <button id="btnNuevoEmpleado">
+                    ➕ Nuevo Empleado
+                </button>
+
+                <button id="btnConsultarEmpleados">
+                    📋 Consultar Empleados
+                </button>
+
+                <button id="btnRegresarEmpleados">
+                    ⬅️ Regresar
+                </button>
+
+            </div>
+            <div id="moduloNuevoEmpleado" style="display:none;">
+
+                <h2 style="text-align:center; color:#003366;">
+                    ➕ Nuevo Empleado
+                </h2>
+
+                <label>Número de empleado</label>
+                <input type="text" id="numeroEmpleado">
+
+                <label>Nombre completo</label>
+                <input type="text" id="nombreEmpleado">
+
+                <label>Área</label>
+                <input type="text" id="areaEmpleado">
+
+                <label>Puesto</label>
+                <input type="text" id="puestoEmpleado">
+
+                <label>Fecha de ingreso</label>
+                <input type="date" id="fechaIngresoEmpleado">
+
+                <br><br>
+
+                <button id="btnGuardarEmpleado">
+                    💾 Guardar Empleado
+                </button>
+
+                <button id="btnCancelarNuevoEmpleado">
                     ⬅️ Cancelar
-        </button>
+                </button>
 
-        </div>
+            </div>
 
-<div id="moduloConsultarEmpleados" style="display:none;">
+            <div id="moduloConsultarEmpleados" style="display:none;">
 
-        <h2 style="text-align:center; color:#003366;">
-                📋 Consultar Empleados
-                    </h2>
+                <h2 style="text-align:center; color:#003366;">
+                    📋 Consultar Empleados
+                </h2>
 
-            <div id="listaEmpleados">
+                <div id="listaEmpleados">
 
-             <!-- Aquí aparecerá la lista de empleados -->
+                    <!-- Aquí aparecerá la lista de empleados -->
 
                 </div>
 
-            <br>
+                <br>
 
-            <button id="btnRegresarConsultaEmpleados">
-            ⬅️ Regresar
-            </button>
+                <button id="btnRegresarConsultaEmpleados">
+                    ⬅️ Regresar
+                </button>
 
             </div>
 
             <!-- MÓDULO ADMINISTRACIÓN DE VACACIONES -->
             <div id="moduloAdministrarVacaciones" style="display:none;">
-            
+
                 <h2 style="color:#123A73; text-align:center;">
-                        🏖️ Administración de Vacaciones
-                            </h2>
-                            
-                                <br>
-                                                        
-                 <button id="btnConsultarVacaciones">
-                        🔎 Consultar Vacaciones
-                             </button>
-                                                                
-                 <button id="btnRegresarAdministrarVacaciones">
-                        ⬅️ Regresar
-                                </button>
-                                                                                
-                                 <br><br>
-                                                                                    
-                <div id="contenidoAdministrarVacaciones">
-                             </div>
-                                            
-                         </div>
-
-  <!-- Consultar Vacaciones -->
-<div id="moduloConsultarVacaciones" style="display:none; margin-top:20px;">
-
-    <h2 style="color:#123A73; text-align:center;">
-            🔎 Consultar Vacaciones
+                    🏖️ Administración de Vacaciones
                 </h2>
-                
+
                 <br>
 
-        <label for="empleadoConsulta"><strong>Seleccione el empleado:</strong></label>
+                <button id="btnConsultarVacaciones">
+                    🔎 Consultar Vacaciones
+                </button>
 
-        <select id="empleadoConsulta" style="width:100%; padding:10px; margin-top:8px; margin-bottom:20px;">
-            <option value="">Seleccione...</option>
-            </select>
-                    
-        <div id="listaVacaciones">
-        <p style="text-align:center;">
-         Aquí se mostrarán las vacaciones del empleado.
-         </p>
-             </div>
-                                                        
-                     <br>
-                                                            
-     <button id="btnRegresarConsultarVacaciones">
-            ↩️ Regresar
-             </button>
-                                                                            
-                     </div>
-         
+                <button id="btnRegresarAdministrarVacaciones">
+                    ⬅️ Regresar
+                </button>
 
-<div id="menuPrincipal" style="display:none;">
+                <br><br>
 
-      <button id="btnMenuVacaciones">
-              🏖 Solicitar Vacaciones
-                  </button>
+                <div id="contenidoAdministrarVacaciones">
+                </div>
 
-       <button id="btnMenuGuardias">
-              🛡 Registrar Guardia
-                  </button>
+            </div>
 
-       <button id="btnHistorial">
-              📋 Historial Vacaciones
-                  </button>
+            <!-- Consultar Vacaciones -->
+            <div id="moduloConsultarVacaciones" style="display:none; margin-top:20px;">
 
-        <button id="btnHistorialGuardias">
-              🛡 Historial de Guardias
-                  </button>
+                <h2 style="color:#123A73; text-align:center;">
+                    🔎 Consultar Vacaciones
+                </h2>
 
-       <button id="btnAdministrador">
-              🔐 Administrador
-                   </button>
+                <br>
 
- </div>
+                <label for="empleadoConsulta"><strong>Seleccione el empleado:</strong></label>
 
-</div>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+                <select id="empleadoConsulta" style="width:100%; padding:10px; margin-top:8px; margin-bottom:20px;">
+                    <option value="">Seleccione...</option>
+                </select>
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <div id="listaVacaciones">
+                    <p style="text-align:center;">
+                        Aquí se mostrarán las vacaciones del empleado.
+                    </p>
+                </div>
 
-  <script src="firebase.js"></script>
-  <script src="app.js?v=2"></script>
+                <br>
+
+                <button id="btnRegresarConsultarVacaciones">
+                    ↩️ Regresar
+                </button>
+
+            </div>
+
+
+            <div id="menuPrincipal" style="display:none;">
+
+                <button id="btnMenuVacaciones">
+                    🏖 Solicitar Vacaciones
+                </button>
+
+                <button id="btnMenuGuardias">
+                    🛡 Registrar Guardia
+                </button>
+
+                <button id="btnHistorial">
+                    📋 Historial Vacaciones
+                </button>
+
+                <button id="btnHistorialGuardias">
+                    🛡 Historial de Guardias
+                </button>
+
+                <button id="btnAdministrador">
+                    🔐 Administrador
+                </button>
+
+            </div>
+
+        </div>
+        <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script src="firebase.js"></script>
+        <script src="app.js?v=3"></script>
 </body>
+
 </html>
